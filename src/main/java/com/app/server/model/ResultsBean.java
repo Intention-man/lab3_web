@@ -27,13 +27,15 @@ public class ResultsBean implements Serializable {
         db = new DAO();
     }
 
-    public void addResult(OneRes oneRes) {
+    public void addResult(Integer x, Float y) {
+        oneRes = new OneRes(x, y, 0);
+        oneRes.setInside();
         results.add(oneRes);
         System.out.println(oneRes.getX() + " " + oneRes.getY());
     }
 
     public List<OneRes> getResults() {
-        results = db.getAllResults();
+        //results = db.getAllResults();
         return results;
     }
 }
