@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <link rel="stylesheet" type="text/css" href="css/table.css"/>
+    <link rel="stylesheet" type="text/css" href="css/canvas.css"/>
+<!--    <script type="text/javascript" src="js/validate.js"></script>-->
+    <title>Lab 3 on Web</title>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <p>Вариант 1511</p>
+        <p>Агей Михаил Александрович</p>
+        <p>P3217</p>
+    </div>
+    <div class="image-container">
+        <img src="img/lab3_web_chart.png" id="image"  alt="Smth wrong"/>
+    </div>
+
+
+
+    <h:form>
+        <h:selectOneMenu value = "#{oneResBean.x}">
+            <f:selectItem itemValue = "-3" itemLabel = "Item -3" />
+            <f:selectItem itemValue = "-2" itemLabel = "Item -2" />
+            <f:selectItem itemValue = "-1" itemLabel = "Item -1" />
+            <f:selectItem itemValue = "0" itemLabel = "Item 0" />
+            <f:selectItem itemValue = "1" itemLabel = "Item 1" />
+            <f:selectItem itemValue = "2" itemLabel = "Item 2" />
+            <f:selectItem itemValue = "3" itemLabel = "Item 3" />
+            <f:selectItem itemValue = "4" itemLabel = "Item 4" />
+            <f:selectItem itemValue = "5" itemLabel = "Item 5" />
+        </h:selectOneMenu>
+
+        <h:outputLabel for="y" value="Value Y &isin; [-5; 3]"/>
+        <h:inputText id="y" styleClass="coords-input" value="#{oneResBean.y}"
+                     required="true" maxlength="7"
+                     requiredMessage="Value Y is required"
+                     validatorMessage="The value must be from -5 to 3">
+            <f:converter converterId="jakarta.faces.Integer"/>
+            <f:validateDoubleRange minimum="-5" maximum="3"/>
+        </h:inputText>
+
+        <h:commandButton value="Send" styleClass="submit-btn">
+            <f:ajax execute="@form" listener="#{resultsBean.addResult(oneResBean)}" render="@form results-table"/>
+        </h:commandButton>
+    </h:form>
+
+<!--    <h:dataTable id="results-table" var="result" value="#{resultsControllerBean.results}">-->
+<!--        <h:column>-->
+<!--            <f:facet name="header">-->
+<!--                <h:outputText value="x"/>-->
+<!--            </f:facet>-->
+<!--            <h:outputText value="#{result}"/>-->
+<!--        </h:column>-->
+<!--    </h:dataTable>-->
+
+
+
+
+<!--    <h:form id="form" method="GET" action="${pageContext.request.contextPath}/controller">-->
+<!--        <div>-->
+<!--            <label>Value R &isin; (2; 5)</label>-->
+<!--            <input type="text" maxlength="8" name="r" onchange="setSendAvailability()" />-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            <label for="x_checkbox">Value X &isin; [-4; 4]</label>-->
+<!--            <div id="x_checkbox">-->
+<!--                <script type="text/javascript" src="js/checkboxDisplay.js"></script>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--            <label>Value Y &isin; (-3; 3)</label>-->
+<!--            <input type="text" maxlength="8" name="y" onchange="setSendAvailability()"/>-->
+<!--        </div>-->
+<!--        <input id="send_button" type="submit" value="Check the hit" disabled="disabled" />-->
+
+<!--        <script type="text/javascript" src="js/setDate.js"></script>-->
+<!--        <script type="text/javascript" src="js/drawChart.js"></script>-->
+<!--    </h:form>-->
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>X</th>-->
+<!--            <th>Y</th>-->
+<!--            <th>R</th>-->
+<!--            <th>Inside</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <c:forEach var="oneRes" items="#{resultsBean.results}">-->
+<!--            <tr>-->
+<!--                <td class="x">#{oneRes.x}</td>-->
+<!--                <td class="y">#{oneRes.y}</td>-->
+<!--                <td class="r">#{oneRes.r}</td>-->
+<!--                <td class="hit">#{oneRes.inside ? '&#10004;' : '&#10008;'}</td>-->
+<!--            </tr>-->
+<!--        </c:forEach>-->
+<!--        </tbody>-->
+<!--    </table>-->
+</div>
+</body>
+</html>
