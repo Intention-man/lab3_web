@@ -121,16 +121,3 @@ a:hover {
     color: white;
     text-shadow: unset;
 }
-
-/*.container {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.container > * {*/
-/*    display: block;*/
-/*    width: max-content;*/
-/*    margin: var(--default_margin);*/
-/*}*/

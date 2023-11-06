@@ -15,27 +15,37 @@ import java.util.List;
 @Named("resultsBean")
 public class ResultsBean implements Serializable {
 
-    @ManagedProperty(value = "#{oneRes}")
-    private OneRes oneRes;
+//    @ManagedProperty(value = "#{oneRes}")
+//    private OneRes oneRes;
 
-    private DAO db;
-    private List<OneRes> results;
+    @ManagedProperty(value = "#{resultEntity}")
+    private ResultEntity resultEntity;
+
+    private final DAO dao;
+    private List<ResultEntity> results;
 
 
     public ResultsBean() {
         results = new ArrayList<>();
-        db = new DAO();
+        dao = new DAO();
     }
 
     public void addResult(Integer x, Float y) {
-        oneRes = new OneRes(x, y, 0);
-        oneRes.setInside();
-        results.add(oneRes);
-        System.out.println(oneRes.getX() + " " + oneRes.getY());
+        float r = 0;
+
+        ResultEntity point = new ResultEntity();
+        point.setX(x);
+        point.setY(y);
+        point.setR(r);
+        point.setInside();
+        results.add(point);
+
+        dao.addResult(point);
+        System.out.println(resultEntity.getX() + " " + resultEntity.getY());
     }
 
-    public List<OneRes> getResults() {
-        //results = db.getAllResults();
+    public List<ResultEntity> getResults() {
+        results = dao.getAllResults();
         return results;
     }
 }

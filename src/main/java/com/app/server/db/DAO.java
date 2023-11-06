@@ -1,31 +1,30 @@
 package com.app.server.db;
 
-import com.app.server.model.OneRes;
+import com.app.server.model.ResultEntity;
+import com.app.server.util.JPAUtil;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
 // class for work with database
 public class DAO implements DAOInterface{
+    private final EntityManager entityManager = JPAUtil.getFactory().createEntityManager();
 
     public DAO(){}
 
     @Override
-    public boolean openConnection() {
-        return false;
+    public List<ResultEntity> getAllResults() {
+        var criteriaQuery = entityManager.getCriteriaBuilder().createQuery(ResultEntity.class);
+        Root<ResultEntity> root = criteriaQuery.from(ResultEntity.class);
+        return entityManager.createQuery(criteriaQuery.select(root)).getResultList();
     }
 
     @Override
-    public boolean closeConnection() {
-        return false;
+    public void addResult(ResultEntity resultEntity) {
+        entityManager.getTransaction().begin();
+        entityManager.persist(resultEntity);
+        entityManager.getTransaction().commit();
     }
 
-    @Override
-    public List<OneRes> getAllResults() {
-        return null;
-    }
-
-    @Override
-    public boolean addResult() {
-        return false;
-    }
 }
