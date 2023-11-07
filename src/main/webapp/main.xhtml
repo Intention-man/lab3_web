@@ -3,8 +3,8 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="ru" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+>
 
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1" name="viewport"/>
@@ -20,8 +20,6 @@
     <div class="image-container">
         <img src="img/lab3_web_chart.png" id="image" alt="Smth wrong"/>
     </div>
-
-
 
     <h:form>
         <h:outputLabel for="x" value="Value X &isin; [-3; 5]"/>
@@ -43,7 +41,7 @@
                      requiredMessage="Value Y is required"
                      validatorMessage="The value must be from -5 to 3">
             <f:converter converterId="jakarta.faces.Float"/>
-            <f:validateDoubleRange minimum="-5" maximum="3"/>
+            <f:validateDoubleRange minimum="-4.9999999" maximum="2.9999999"/>
         </h:inputText>
 
         <h:commandButton value="Send" styleClass="submit-btn">
@@ -80,49 +78,6 @@
     </h:dataTable>
 
     <a href="./index.xhtml">Back to start</a>
-
-
-
-<!--    <h:form id="form" method="GET" action="${pageContext.request.contextPath}/controller">-->
-<!--        <div>-->
-<!--            <label>Value R &isin; (2; 5)</label>-->
-<!--            <input type="text" maxlength="8" name="r" onchange="setSendAvailability()" />-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <label for="x_checkbox">Value X &isin; [-4; 4]</label>-->
-<!--            <div id="x_checkbox">-->
-<!--                <script type="text/javascript" src="js/checkboxDisplay.js"></script>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div>-->
-<!--            <label>Value Y &isin; (-3; 3)</label>-->
-<!--            <input type="text" maxlength="8" name="y" onchange="setSendAvailability()"/>-->
-<!--        </div>-->
-<!--        <input id="send_button" type="submit" value="Check the hit" disabled="disabled" />-->
-
-<!--        <script type="text/javascript" src="js/setDate.js"></script>-->
-<!--        <script type="text/javascript" src="js/drawChart.js"></script>-->
-<!--    </h:form>-->
-<!--    <table>-->
-<!--        <thead>-->
-<!--        <tr>-->
-<!--            <th>X</th>-->
-<!--            <th>Y</th>-->
-<!--            <th>R</th>-->
-<!--            <th>Inside</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody>-->
-<!--        <c:forEach var="oneRes" items="#{resultsBean.results}">-->
-<!--            <tr>-->
-<!--                <td class="x">#{oneRes.x}</td>-->
-<!--                <td class="y">#{oneRes.y}</td>-->
-<!--                <td class="r">#{oneRes.r}</td>-->
-<!--                <td class="hit">#{oneRes.inside ? '&#10004;' : '&#10008;'}</td>-->
-<!--            </tr>-->
-<!--        </c:forEach>-->
-<!--        </tbody>-->
-<!--    </table>-->
 </div>
 </body>
 </html>

@@ -27,4 +27,8 @@ public class DAO implements DAOInterface{
         entityManager.getTransaction().commit();
     }
 
+    @Override
+    public void clearResults() {
+        entityManager.clear();
+    }
 }

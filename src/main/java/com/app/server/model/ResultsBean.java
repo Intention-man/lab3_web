@@ -15,9 +15,6 @@ import java.util.List;
 @Named("resultsBean")
 public class ResultsBean implements Serializable {
 
-//    @ManagedProperty(value = "#{oneRes}")
-//    private OneRes oneRes;
-
     @ManagedProperty(value = "#{resultEntity}")
     private ResultEntity resultEntity;
 
@@ -26,8 +23,9 @@ public class ResultsBean implements Serializable {
 
 
     public ResultsBean() {
-        results = new ArrayList<>();
         dao = new DAO();
+        results = new ArrayList<>();
+        if (!dao.getAllResults().isEmpty()) {results = dao.getAllResults();}
     }
 
     public void addResult(Integer x, Float y) {
@@ -41,7 +39,7 @@ public class ResultsBean implements Serializable {
         results.add(point);
 
         dao.addResult(point);
-        System.out.println(resultEntity.getX() + " " + resultEntity.getY());
+//        System.out.println(resultEntity.getX() + " " + resultEntity.getY());
     }
 
     public List<ResultEntity> getResults() {
