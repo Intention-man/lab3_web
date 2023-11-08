@@ -5,13 +5,15 @@
     margin: 0 100px 0 0;
 }
 
-image {
+img {
     margin: 0;
+    width: inherit;
+    height: inherit;
 }
 
 .point {
-    width: 16px; /* Ширина точки */
-    height: 16px; /* Высота точки */
+    /*width: 16px; !* Ширина точки *!*/
+    /*height: 16px; !* Высота точки *!*/
     /*background-color: green;*/
     border-radius: 50%;
     position: absolute;

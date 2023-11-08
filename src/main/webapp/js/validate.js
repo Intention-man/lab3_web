@@ -1,5 +1,5 @@
 const setSendAvailability = () => {
-    let button = document.getElementById("send_button");
+    let button = document.querySelector('.submit-btn');
     if (checkDataFromForm()){
         button.removeAttribute('disabled');
     } else {
@@ -8,18 +8,19 @@ const setSendAvailability = () => {
 }
 
 const checkDataFromForm = () => {
-    const r = document.getElementsByName("r")[0].value;
-    const y = document.getElementsByName("y")[0].value;
+    const r = 2;
+    const y = document.querySelector('.y').value;
     let x;
     try{
-        x = Array.from(document.querySelectorAll('input[name=x]:checked'))[0].value;
+        x = document.querySelector('.x').value;
         return isCorrect(x, y, r);
     } catch (ex) {
         return false;
     }
 }
 const isCorrect = (x, y, r) => {
-    return (isNumber(x) && isNumber(y) && isNumber(r) && Math.abs(x) <= 4 && y > -3 && y < 3 && r > 2 && r < 5)
+    console.log(x, y, r)
+    return (isNumber(x) && isNumber(y) && isNumber(r) && x >= -3 && x <= 5 && y > -5 && y < 3 && r >= 1 && r <= 4)
 }
 
 const isNumber = (number) => {

@@ -28,18 +28,14 @@ public class ResultsBean implements Serializable {
         if (!dao.getAllResults().isEmpty()) {results = dao.getAllResults();}
     }
 
-    public void addResult(Integer x, Float y) {
-        float r = 0;
-
+    public void addResult(Integer x, Float y, Float r) {
         ResultEntity point = new ResultEntity();
         point.setX(x);
         point.setY(y);
         point.setR(r);
         point.setInside();
         results.add(point);
-
         dao.addResult(point);
-//        System.out.println(resultEntity.getX() + " " + resultEntity.getY());
     }
 
     public List<ResultEntity> getResults() {
