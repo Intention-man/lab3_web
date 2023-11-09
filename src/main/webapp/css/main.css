@@ -47,23 +47,6 @@ form, form > div {
     margin: var(--default_margin);
 }
 
-.header{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 80vw;
-    text-align: justify;
-
-    margin: 0 7vw;
-    border: solid 3px var(--default_green);
-    border-radius: var(--default_border_radius);
-    padding: var(--default_padding);
-
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--complementary_green);
-}
-
 .x, .y {
     font-size: var(--default_font_size);
 }
@@ -101,7 +84,7 @@ form, form > div {
     background: var(--default_grey);
 }
 
-a {
+a, .start_link, .to_start {
     display: inline-block;
     margin: var(--default_margin);
     padding: 8px 15px;
@@ -115,10 +98,13 @@ a {
             0 0 4px 1px rgba(0,0,0,0.2);
     /* Font styles */
     text-decoration: none;
+    font-size: var(--default_font_size);
+    font-family: var(--default_font_family);
 }
 
-a:hover {
+a:hover, .start_link:hover, .to_start:hover {
     background: var(--complementary_green);
     color: white;
     text-shadow: unset;
+    cursor: pointer;
 }

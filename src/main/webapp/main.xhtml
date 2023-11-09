@@ -96,7 +96,10 @@
 
     <h:inputText styleClass="result-list-string" value="#{resultsBean.resultsASJSONString}" style="display: none"/>
     <script type="text/javascript" src="js/drawChart.js"/>
-    <a href="./index.xhtml">Back to start</a>
+
+    <h:form style="padding: 0; border: none">
+        <h:commandButton styleClass="to_start" value="Back to start" action="goToStart"/>
+    </h:form>
 </div>
 </body>
 </html>

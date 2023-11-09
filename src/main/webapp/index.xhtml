@@ -7,24 +7,29 @@
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1" name="viewport"/>
     <link rel="stylesheet" type="text/css" href="css/main.css"/>
-    <link rel="stylesheet" type="text/css" href="css/clock.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
     <!--    <script type="text/javascript" src="js/validate.js"></script>-->
     <title>Lab 3 on Web</title>
 </h:head>
 <h:body>
-<div class="container" style="flex-direction: column">
+<div id="index-container" class="container" style="flex-direction: column">
     <div class="header">
         <p>Вариант 1511</p>
         <p>Агей Михаил Александрович</p>
         <p>P3217</p>
     </div>
+<!--    <a id="start_link" href="./main.xhtml">START</a>-->
+    <h:form style="padding: 0; border: none">
+        <h:commandButton styleClass="start_link" action="goToMain" value="START" />
+    </h:form>
+
     <div id="clock-container">
         <h:outputText id="clock" />
         <h:outputText id="date" style="text-align: center;" />
     </div>
 
     <script type="text/javascript" src="js/clockDisplay.js"></script>
-    <a href="./main.xhtml">Go to main</a>
+
 </div>
 </h:body>
 
