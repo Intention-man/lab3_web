@@ -38,7 +38,8 @@ function handleSlideEnd(event, ui) {
     console.log("ui.value: ", ui.value)
     console.log("width: ", imageSize)
     imageContainer.style.width = `${imageSize}px`;
-    imageContainer.style.height= `${imageSize}px`;
+    imageContainer.style.height = `${imageSize}px`;
+    imageContainer.style.margin = `calc(200px - ${imageSize / 2}px)`;
     for (const point of points) {
         console.log("point: ", pointsSize)
         point.style.width = `${pointsSize}px`
@@ -54,16 +55,16 @@ const drawPoint = (x, y, r, isInside) => {
     point.className = 'point';
     point.style.width = `${rval > 0 ? getPointSize(rInput.value) : 8}px`
     point.style.height = `${rval > 0 ? getPointSize(rInput.value) : 8}px`
-    point.style.left = `${xPercentage}%`;
-    point.style.top = `${yPercentage}%`;
-    point.style.backgroundColor = (isInside ? "#009900" : "#990000")
+    point.style.left = `min(100%, ${xPercentage}%)`;
+    point.style.top = `min(100%, ${yPercentage}%)`;
+    const isInBound = xPercentage <= 100 && yPercentage <= 100;
+    point.style.backgroundColor = (isInside ? "#009900" : isInBound ? "#000099" : "#990000")
     imageContainer.appendChild(point);
 }
 
 const drawAllPoints = () => {
     const objectListJSON = document.querySelector('.result-list-string')
     let myObjects = JSON.parse(objectListJSON.value);
-    //let storedObjects = sessionStorage.getItem('results');
     if (myObjects != null) {
         myObjects.forEach(function (obj, index) {
             console.log(obj.x, obj.y, obj.r, obj.inside)

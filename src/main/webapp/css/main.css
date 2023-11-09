@@ -34,15 +34,15 @@ form, form > div {
 
 .container {
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
+    flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
 }
 
-.container > * {
-    flex: 1;
-}
+/*.container > * {*/
+/*    flex: 1;*/
+/*}*/
 .container > *:not(img, .image-container) {
     margin: var(--default_margin);
 }

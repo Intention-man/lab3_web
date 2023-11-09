@@ -2,7 +2,12 @@
 .image-container {
     position: relative;
     padding: 0;
-    margin: 100px;
+    margin: 125px;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 img {
@@ -12,9 +17,6 @@ img {
 }
 
 .point {
-    /*width: 16px; !* Ширина точки *!*/
-    /*height: 16px; !* Высота точки *!*/
-    /*background-color: green;*/
     border-radius: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
