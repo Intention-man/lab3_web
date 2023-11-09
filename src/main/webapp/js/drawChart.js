@@ -10,8 +10,8 @@ imageContainer.addEventListener('click', (e) => {
     if (isNumber(r) && r >= 1 && r <= 4) {
         const {xPercentage, yPercentage} = calcCoordsFromClick(e);
         r = parseFloat(r);
-        const x = Math.round((xPercentage - 50) / 50 * 1.25 * r);
-        const y = -1 * ((yPercentage - 50) / 50 * 1.25 * r);
+        const x = Math.round((xPercentage - 37) * 8 * r / 100);
+        const y = -1 * ((yPercentage  - 37.5) * 8 * r / 100);
         if (isCorrect(x, y, r)) {
             sendRequestFromCanvas(x, y, r);
             drawPoint(x, y, r, defineIsInside(x, y, r));
@@ -32,24 +32,24 @@ sendButton.addEventListener('click', (e) => {
 })
 
 function handleSlideEnd(event, ui) {
+    console.log("handleSlideEnd")
+    setSendAvailability() && console.log("setSendAvailability")
+
     const points = document.getElementsByClassName('point');
-    const imageSize = 100 + ui.value * 50;
+    const imageSize = getImageSize(ui.value);
     const pointsSize = getPointSize(ui.value);
-    console.log("ui.value: ", ui.value)
-    console.log("width: ", imageSize)
     imageContainer.style.width = `${imageSize}px`;
     imageContainer.style.height = `${imageSize}px`;
-    imageContainer.style.margin = `calc(200px - ${imageSize / 2}px)`;
+    imageContainer.style.margin = `calc(250px - ${imageSize / 2}px)`;
     for (const point of points) {
-        console.log("point: ", pointsSize)
         point.style.width = `${pointsSize}px`
         point.style.height = `${pointsSize}px`
     }
 }
 
 const drawPoint = (x, y, r, isInside) => {
+    console.log(x, y, r)
     const {xPercentage, yPercentage} = calcCoordsFromForm(x, y, r);
-    console.log("rInput.value: " + rInput.value)
     const point = document.createElement('div');
     const rval = isNumber(rInput.value) ? parseFloat(rInput.value) : 0;
     point.className = 'point';
@@ -57,8 +57,7 @@ const drawPoint = (x, y, r, isInside) => {
     point.style.height = `${rval > 0 ? getPointSize(rInput.value) : 8}px`
     point.style.left = `min(100%, ${xPercentage}%)`;
     point.style.top = `min(100%, ${yPercentage}%)`;
-    const isInBound = xPercentage <= 100 && yPercentage <= 100;
-    point.style.backgroundColor = (isInside ? "#009900" : isInBound ? "#000099" : "#990000")
+    point.style.backgroundColor = (isInside ? "#009900" : "#990000")
     imageContainer.appendChild(point);
 }
 
@@ -67,7 +66,6 @@ const drawAllPoints = () => {
     let myObjects = JSON.parse(objectListJSON.value);
     if (myObjects != null) {
         myObjects.forEach(function (obj, index) {
-            console.log(obj.x, obj.y, obj.r, obj.inside)
             drawPoint(obj.x, obj.y, obj.r, obj.inside)
         });
     }
@@ -80,8 +78,8 @@ const calcCoordsFromClick = (e) => {
 }
 
 const calcCoordsFromForm = (x, y, r) => {
-    const xPercentage = (x * 50) / (1.25 * r) + 50
-    const yPercentage = (-1 * y * 50) / (1.25 * r) + 50
+    const xPercentage = (x * 100) / (8 * r) + 37
+    const yPercentage = (-1 * y * 100) / (8 * r) + 37.5
     return {xPercentage, yPercentage};
 }
 
@@ -102,11 +100,21 @@ const sendRequestFromCanvas = (x, y, r) => {
 }
 
 const defineIsInside = (x, y, r) => {
-    return (x >= 0 && y >= 0 && x <= r && y <= r/2 ) ||
+    return (x >= 0 && y >= 0 && x <= r && y <= r / 2) ||
         (x <= 0 && y <= 0 && (Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r, 2))) ||
-        (x >= 0 && y <= 0 && y >= x - r/2);
+        (x >= 0 && y <= 0 && y >= x - r / 2);
 }
 
 const getPointSize = (rVal) => {
-    return 8 + 2 * rVal;
+    return 8 + 1.5 * rVal;
+}
+
+const getImageSize = (rVal) => {
+    return 250 + rVal * 50;
+}
+
+
+window.onload = (event) => {
+    drawAllPoints();
+    setSendAvailability()
 }

@@ -1,22 +1,20 @@
 const setSendAvailability = () => {
+    console.log("setSendAvailability")
     let button = document.querySelector('.submit-btn');
     if (checkDataFromForm()){
-        button.removeAttribute('disabled');
+        button.removeAttribute("disabled")
     } else {
-        button.setAttribute('disabled', 'disabled');
+        button.setAttribute('disabled', 'true');
     }
 }
 
 const checkDataFromForm = () => {
-    const r = 2;
+    const r =  document.querySelector('.r').value;
     const y = document.querySelector('.y').value;
-    let x;
-    try{
-        x = document.querySelector('.x').value;
-        return isCorrect(x, y, r);
-    } catch (ex) {
-        return false;
-    }
+    const x = document.querySelector('.x').value;
+    console.log(isCorrect(x, y, r))
+    return isCorrect(x, y, r);
+
 }
 const isCorrect = (x, y, r) => {
     console.log(x, y, r)

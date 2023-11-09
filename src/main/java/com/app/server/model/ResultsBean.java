@@ -35,9 +35,9 @@ public class ResultsBean implements Serializable {
 
     public void addResult(Integer x, Float y, Float r) {
         ResultEntity point = new ResultEntity();
-        point.setX(x);
-        point.setY(y);
-        point.setR(r);
+        point.setX(x != null ? x : 0);
+        point.setY(y != null ? y : 0);
+        point.setR(r != null ? r : 0);
         point.setInside();
         results.add(point);
         dao.addResult(point);
@@ -45,7 +45,7 @@ public class ResultsBean implements Serializable {
 
     public List<ResultEntity> getResults() {
         results = dao.getAllResults();
-        resultsASJSONString = gson.toJson(results);
+        resultsASJSONString = !results.isEmpty() ? gson.toJson(results) : "[]";
         return results;
     }
 

@@ -20,41 +20,47 @@
 <div class="container">
 
     <div class="image-container">
-        <img src="img/lab3_web_chart.png" id="image" alt="Smth wrong"/>
+        <img src="img/lab3_chart.jpg" id="image" alt="Smth wrong"/>
     </div>
 
     <h:form>
-        <h:outputLabel for="x" value="Value X &isin; [-3; 5]"/>
-        <h:selectOneMenu name="x" styleClass="x" value="#{resultEntity.x}">
-            <f:selectItem itemValue="-3" itemLabel="Item -3"/>
-            <f:selectItem itemValue="-2" itemLabel="Item -2"/>
-            <f:selectItem itemValue="-1" itemLabel="Item -1"/>
-            <f:selectItem itemValue="0" itemLabel="Item 0"/>
-            <f:selectItem itemValue="1" itemLabel="Item 1"/>
-            <f:selectItem itemValue="2" itemLabel="Item 2"/>
-            <f:selectItem itemValue="3" itemLabel="Item 3"/>
-            <f:selectItem itemValue="4" itemLabel="Item 4"/>
-            <f:selectItem itemValue="5" itemLabel="Item 5"/>
-        </h:selectOneMenu>
+        <div>
+            <h:outputLabel for="x" value="Value X &isin; [-3; 5]"/>
+            <h:selectOneMenu name="x" styleClass="x" value="#{resultEntity.x}">
+                <f:selectItem itemValue="-3" itemLabel="-3"/>
+                <f:selectItem itemValue="-2" itemLabel="-2"/>
+                <f:selectItem itemValue="-1" itemLabel="-1"/>
+                <f:selectItem itemValue="0" itemLabel="0"/>
+                <f:selectItem itemValue="1" itemLabel="1"/>
+                <f:selectItem itemValue="2" itemLabel="2"/>
+                <f:selectItem itemValue="3" itemLabel="3"/>
+                <f:selectItem itemValue="4" itemLabel="4"/>
+                <f:selectItem itemValue="5" itemLabel="5"/>
+            </h:selectOneMenu>
+        </div>
 
-        <h:outputLabel for="y" value="Value Y &isin; (-5; 3)"/>
-        <h:inputText name="y" styleClass="y" value="#{resultEntity.y}"
-                     required="true" maxlength="7"
-                     requiredMessage="Value Y is required"
-                     validatorMessage="The value must be from -5 to 3">
-            <f:converter converterId="jakarta.faces.Float"/>
-            <f:validateDoubleRange minimum="-4.9999999" maximum="2.9999999"/>
-        </h:inputText>
+        <div>
+            <h:outputLabel for="y" value="Value Y &isin; (-5; 3)"/>
+            <h:inputText name="y" styleClass="y" value="#{resultEntity.y}" onchange="setSendAvailability()"
+                         required="true" maxlength="7"
+                         requiredMessage="Value Y is required"
+                         validatorMessage="The value must be from -5 to 3">
+                <f:converter converterId="jakarta.faces.Float"/>
+                <f:validateDoubleRange minimum="-4.9999999" maximum="2.9999999"/>
+            </h:inputText>
+        </div>
 
-        <h:outputLabel for="r" value="Value R &isin; [1; 4]"/>
-        <h:panelGrid columns="1">
-            <p:inputText id="r" name="r" styleClass="r" value="#{resultEntity.r}"/>
-            <p:slider for="r" minValue="1" maxValue="4" step="0.5" onSlideEnd="handleSlideEnd(event, ui)"/>
-        </h:panelGrid>
+        <div>
+            <h:outputLabel for="r" value="Value R &isin; [1; 4]"/>
+            <h:panelGrid columns="1">
+                <p:inputText id="r" name="r" styleClass="r" value="#{resultEntity.r}"/>
+                <p:slider for="r" minValue="1" maxValue="4" step="0.5" onSlideEnd="handleSlideEnd(event, ui)"/>
+            </h:panelGrid>
+        </div>
 
-        <h:commandButton value="Send" styleClass="submit-btn">
+        <h:commandButton id="submit-btn" value="Send" styleClass="submit-btn">
             <f:ajax execute="@form" listener="#{resultsBean.addResult(resultEntity.x, resultEntity.y, resultEntity.r)}"
-                    render="@form results-table"/>
+                    render="results-table"/>
         </h:commandButton>
 
     </h:form>
@@ -90,16 +96,6 @@
 
     <h:inputText styleClass="result-list-string" value="#{resultsBean.resultsASJSONString}" style="display: none"/>
     <script type="text/javascript" src="js/drawChart.js"/>
-    <script type="text/javascript">
-        {
-            window.onload = (event) => {
-                drawAllPoints();
-            }
-        }
-    </script>
-
-
-
     <a href="./index.xhtml">Back to start</a>
 </div>
 </body>
