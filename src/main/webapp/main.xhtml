@@ -49,15 +49,13 @@
         <h:outputLabel for="r" value="Value R &isin; [1; 4]"/>
         <h:panelGrid columns="1">
             <p:inputText id="r" name="r" styleClass="r" value="#{resultEntity.r}"/>
-            <p:slider for="r" minValue="1" maxValue="4" step="0.5" onSlideEnd="handleSlideEnd(#{resultsBean.results})"/>
+            <p:slider for="r" minValue="1" maxValue="4" step="0.5" onSlideEnd="handleSlideEnd(event, ui)"/>
         </h:panelGrid>
 
         <h:commandButton value="Send" styleClass="submit-btn">
             <f:ajax execute="@form" listener="#{resultsBean.addResult(resultEntity.x, resultEntity.y, resultEntity.r)}"
                     render="@form results-table"/>
         </h:commandButton>
-
-        <a class="onload-link" onclick="drawAllPoints('#{resultsBean.results}')" style="display: none"/>
 
     </h:form>
 
@@ -90,7 +88,16 @@
     </h:dataTable>
 
 
+    <h:inputText styleClass="result-list-string" value="#{resultsBean.resultsASJSONString}"/>
     <script type="text/javascript" src="js/drawChart.js"/>
+    <script type="text/javascript">
+        {
+            window.onload = (event) => {
+                drawAllPoints();
+            }
+        }
+    </script>
+
 
 
     <a href="./index.xhtml">Back to start</a>

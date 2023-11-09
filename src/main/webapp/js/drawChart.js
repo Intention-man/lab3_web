@@ -1,25 +1,9 @@
 const imageContainer = document.querySelector('.image-container');
 const image = document.getElementById('image');
-const points = document.getElementsByClassName('.point');
 const rInput = document.querySelector('.r');
 const yInput = document.querySelector('.y');
 const xInput = document.querySelector('.x');
 const sendButton = document.querySelector('.submit-btn');
-const onloadLink = document.querySelector('.onload-link');
-
-
-function handleSlideEnd(results) {
-    console.log("handleSlideEnd")
-    const imageSize = rInput.value * 100;
-    const pointsSize = rInput.value * 4;
-    console.log("width: ", imageSize)
-    imageContainer.style.width = `${imageSize}px`;
-    imageContainer.style.height= `${imageSize}px`;
-    for (const point of points) {
-        point.style.width = `${pointsSize}px`
-        point.style.height = `${pointsSize}px`
-    }
-}
 
 imageContainer.addEventListener('click', (e) => {
     let r = rInput.value;
@@ -39,7 +23,6 @@ imageContainer.addEventListener('click', (e) => {
     }
 });
 
-
 sendButton.addEventListener('click', (e) => {
     const x = xInput.value
     const y = yInput.value
@@ -49,21 +32,38 @@ sendButton.addEventListener('click', (e) => {
     addPointToStorage(x, y, r, isInside);
 })
 
+function handleSlideEnd(event, ui) {
+    const points = document.getElementsByClassName('point');
+    const imageSize = ui.value * 100;
+    const pointsSize = getPointSize(ui.value);
+    console.log("ui.value: ", ui.value)
+    console.log("width: ", imageSize)
+    imageContainer.style.width = `${imageSize}px`;
+    imageContainer.style.height= `${imageSize}px`;
+    for (const point of points) {
+        console.log("point: ", pointsSize)
+        point.style.width = `${pointsSize}px`
+        point.style.height = `${pointsSize}px`
+    }
+}
+
 const drawPoint = (x, y, r, isInside) => {
     const {xPercentage, yPercentage} = calcCoordsFromForm(x, y, r);
-    console.log(xPercentage, yPercentage)
+    console.log("rInput.value: " + rInput.value)
     const point = document.createElement('div');
+    const rval = isNumber(rInput.value) ? parseFloat(rInput.value) : 0;
     point.className = 'point';
-    point.style.width = `${rInput.value * 4}px`
-    point.style.height = `${rInput.value * 4}px`
+    point.style.width = `${rval > 0 ? getPointSize(rInput.value) : 8}px`
+    point.style.height = `${rval > 0 ? getPointSize(rInput.value) : 8}px`
     point.style.left = `${xPercentage}%`;
     point.style.top = `${yPercentage}%`;
     point.style.backgroundColor = (isInside ? "#009900" : "#990000")
     imageContainer.appendChild(point);
 }
 
-const drawAllPoints = (results) => {
-    let myObjects = results;
+const drawAllPoints = () => {
+    const objectListJSON = document.querySelector('.result-list-string')
+    let myObjects = JSON.parse(objectListJSON.value);
     //let storedObjects = sessionStorage.getItem('results');
     if (myObjects != null) {
         myObjects.forEach(function (obj, index) {
@@ -119,6 +119,6 @@ const defineIsInside = (x, y, r) => {
         (x >= 0 && y <= 0 && y >= x - r/2);
 }
 
-window.onload = (event) => {
-    onloadLink.dispatchEvent(clickEvent)
+const getPointSize = (rVal) => {
+    return 8 + 2 * rVal;
 }
