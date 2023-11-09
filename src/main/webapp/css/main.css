@@ -34,12 +34,15 @@ form, form > div {
 
 .container {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: center;
 }
 
+.container > * {
+    flex: 1;
+}
 .container > *:not(img, .image-container) {
     margin: var(--default_margin);
 }
@@ -59,11 +62,6 @@ form, form > div {
     font-size: 20px;
     font-weight: 600;
     color: var(--complementary_green);
-}
-
-#x_checkbox {
-    display: flex;
-    flex-direction: row;
 }
 
 

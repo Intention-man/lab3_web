@@ -29,12 +29,11 @@ sendButton.addEventListener('click', (e) => {
     const r = rInput.value
     const isInside = defineIsInside(x, y, r)
     drawPoint(x, y, r, isInside);
-    addPointToStorage(x, y, r, isInside);
 })
 
 function handleSlideEnd(event, ui) {
     const points = document.getElementsByClassName('point');
-    const imageSize = ui.value * 100;
+    const imageSize = 100 + ui.value * 50;
     const pointsSize = getPointSize(ui.value);
     console.log("ui.value: ", ui.value)
     console.log("width: ", imageSize)
@@ -85,18 +84,6 @@ const calcCoordsFromForm = (x, y, r) => {
     return {xPercentage, yPercentage};
 }
 
-const addPointToStorage = (x, y, r, isInside) => {
-    let storedObjects = sessionStorage.getItem('results');
-    let myObjects;
-    if (storedObjects == null) {
-        myObjects = [];
-    } else {
-        myObjects = Array.from(JSON.parse(storedObjects));
-    }
-    let newObj = {x: x, y: y, r: r, inside: isInside};
-    myObjects.push(newObj);
-    sessionStorage.setItem('results', JSON.stringify(myObjects));
-}
 
 // Событие "click"
 const clickEvent = new MouseEvent('click', {
