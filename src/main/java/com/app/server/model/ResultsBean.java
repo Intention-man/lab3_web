@@ -28,9 +28,8 @@ public class ResultsBean implements Serializable {
 
     public ResultsBean() {
         dao = new DAO();
-        results = new ArrayList<>();
+        results = dao.getAllResults();
         gson = new Gson();
-        if (!dao.getAllResults().isEmpty()) {results = dao.getAllResults();}
     }
 
     public void addResult(Integer x, Float y, Float r) {

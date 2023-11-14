@@ -60,7 +60,7 @@
 
         <h:commandButton id="submit-btn" value="Send" styleClass="submit-btn">
             <f:ajax execute="@form" listener="#{resultsBean.addResult(resultEntity.x, resultEntity.y, resultEntity.r)}"
-                    render="results-table"/>
+                    render="results-table form"/>
         </h:commandButton>
 
     </h:form>

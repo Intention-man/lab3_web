@@ -2,17 +2,19 @@ package com.app.server.model;
 
 import jakarta.annotation.ManagedBean;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.inject.Named;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "hit_results", schema = "s367044")
 @ManagedBean
-@ApplicationScoped
+@SessionScoped
 @Named("resultEntity")
-public class ResultEntity {
+public class ResultEntity implements Serializable {
 
     @Id
     @Column

@@ -1,4 +1,5 @@
 #index-container {
+    height: calc(100vh - 12px);
     margin: 0 auto; /* Center the clock horizontally */
     border: 5px solid var(--default_green); /* Green border */
     padding: 20px; /* Add padding for spacing */
