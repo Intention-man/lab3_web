@@ -1,9 +1,5 @@
 package com.app.server.model;
 
-import jakarta.annotation.ManagedBean;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.context.SessionScoped;
-import jakarta.inject.Named;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -12,15 +8,12 @@ import java.util.Objects;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "hit_results", schema = "s367044")
-@Named("resultEntity")
 @DiscriminatorColumn(name = "type")
 public class ResultEntity implements Serializable {
 
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence-generator"
-    )
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
