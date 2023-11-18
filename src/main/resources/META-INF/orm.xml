@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+                                     http://xmlns.jcp.org/xml/ns/persistence/orm_2_0.xsd" version="2.2">
+
+    <!-- abstract shape -->
+    <entity class="com.app.server.model.ResultEntity">
+        <inheritance strategy="SINGLE_TABLE"/>
+        <attributes>
+            <id name="id"/>
+        </attributes>
+    </entity>
+
+    <!-- circle concrete subclass -->
+    <entity class="com.app.server.model.RoundPointEntity">
+        <attributes>
+            <basic name="radius"/>
+        </attributes>
+    </entity>
+
+    <!-- rectangle concrete subclass -->
+    <entity class="com.app.server.model.SquarePointEntity">
+        <attributes>
+            <basic name="length"/>
+        </attributes>
+    </entity>
+
+</entity-mappings>

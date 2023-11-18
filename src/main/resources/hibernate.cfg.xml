@@ -11,5 +11,8 @@
         <property name="show_sql">true</property>
         <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.transform_hbm_xml.enabled">true</property>
+        <mapping class="com.app.server.model.ResultEntity"/>
+        <mapping class="com.app.server.model.RoundPointEntity"/>
+        <mapping class="com.app.server.model.SquarePointEntity"/>
     </session-factory>
 </hibernate-configuration>

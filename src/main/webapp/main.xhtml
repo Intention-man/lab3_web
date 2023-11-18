@@ -25,8 +25,27 @@
 
     <h:form>
         <div>
+            <h:outputLabel for="type" value="Circle or Square?"/>
+            <h:selectOneMenu name="type" styleClass="type" value="#{onePoint.type}">
+                <f:selectItem itemValue="1" itemLabel="Circle"/>
+                <f:selectItem itemValue="2" itemLabel="Square"/>
+            </h:selectOneMenu>
+        </div>
+
+        <div>
+            <h:outputLabel for="size" value="#{onePoint.type == 1 ? 'radius' : 'length'} > 0"/>
+            <h:inputText name="size" styleClass="size" value="#{onePoint.size}"
+                         required="true" maxlength="7"
+                         requiredMessage="Size is required"
+                         validatorMessage="The value must be positive">
+                <f:converter converterId="jakarta.faces.Float"/>
+                <f:validateDoubleRange minimum="0.0000001"/>
+            </h:inputText>
+        </div>
+
+        <div>
             <h:outputLabel for="x" value="Value X &isin; [-3; 5]"/>
-            <h:selectOneMenu name="x" styleClass="x" value="#{resultEntity.x}">
+            <h:selectOneMenu name="x" styleClass="x" value="#{onePoint.x}">
                 <f:selectItem itemValue="-3" itemLabel="-3"/>
                 <f:selectItem itemValue="-2" itemLabel="-2"/>
                 <f:selectItem itemValue="-1" itemLabel="-1"/>
@@ -41,7 +60,7 @@
 
         <div>
             <h:outputLabel for="y" value="Value Y &isin; (-5; 3)"/>
-            <h:inputText name="y" styleClass="y" value="#{resultEntity.y}" onchange="setSendAvailability()"
+            <h:inputText name="y" styleClass="y" value="#{onePoint.y}" onchange="setSendAvailability()"
                          required="true" maxlength="7"
                          requiredMessage="Value Y is required"
                          validatorMessage="The value must be from -5 to 3">
@@ -53,13 +72,13 @@
         <div>
             <h:outputLabel for="r" value="Value R &isin; [1; 4]"/>
             <h:panelGrid columns="1">
-                <p:inputText id="r" name="r" styleClass="r" value="#{resultEntity.r}"/>
+                <p:inputText id="r" name="r" styleClass="r" value="#{onePoint.r}"/>
                 <p:slider for="r" minValue="1" maxValue="4" step="0.5" onSlideEnd="handleSlideEnd(event, ui)"/>
             </h:panelGrid>
         </div>
 
         <h:commandButton id="submit-btn" value="Send" styleClass="submit-btn">
-            <f:ajax execute="@form" listener="#{resultsBean.addResult(resultEntity.x, resultEntity.y, resultEntity.r)}"
+            <f:ajax execute="@form" listener="#{resultsBean.addResult(onePoint)}"
                     render="results-table form"/>
         </h:commandButton>
 

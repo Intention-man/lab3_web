@@ -10,14 +10,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "hit_results", schema = "s367044")
-@ManagedBean
-@SessionScoped
 @Named("resultEntity")
+@DiscriminatorColumn(name = "type")
 public class ResultEntity implements Serializable {
 
     @Id
-    @Column
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "sequence-generator"
@@ -72,8 +71,9 @@ public class ResultEntity implements Serializable {
     public boolean isInside() {
         return inside;
     }
-    public void setInside() {
-        this.inside = (x >= 0 && y >= 0 && x <= r && y <= r/2 ) || (x <= 0 && y <= 0 && (Math.pow(x, 2) + Math.pow(y, 2) <= Math.pow(r, 2))) || (x >= 0 && y <= 0 && y >= x - r/2);
+
+    public void setInside(boolean inside) {
+         this.inside = inside;
     }
 
     @Override
@@ -95,4 +95,5 @@ public class ResultEntity implements Serializable {
                 ", x=" + x +
                 '}';
     }
+
 }
