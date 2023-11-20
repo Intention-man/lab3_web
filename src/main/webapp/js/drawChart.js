@@ -1,5 +1,7 @@
 const imageContainer = document.querySelector('.image-container');
-const image = document.getElementById('image');
+const image = document.getElementById('image')
+const typeInput = document.querySelector('.type_input');
+const sizeInput = document.querySelector('.size');
 const rInput = document.querySelector('.r');
 const yInput = document.querySelector('.y');
 const xInput = document.querySelector('.x');
@@ -7,16 +9,17 @@ const sendButton = document.querySelector('.submit-btn');
 
 imageContainer.addEventListener('click', (e) => {
     let r = rInput.value;
+    const size = sizeInput.value;
     if (isNumber(r) && r >= 1 && r <= 4) {
         const {xPercentage, yPercentage} = calcCoordsFromClick(e);
         r = parseFloat(r);
         const x = Math.round((xPercentage - 37) * 8 * r / 100);
         const y = -1 * ((yPercentage  - 37.5) * 8 * r / 100);
-        if (isCorrect(x, y, r)) {
-            sendRequestFromCanvas(x, y, r);
+        if (isCorrect(x, y, r, size)) {
+            sendRequestFromCanvas(x, y);
             drawPoint(x, y, r, defineIsInside(x, y, r));
         } else {
-            window.alert("At this point, at least one of the coordinates does not fall within the range of acceptable values");
+            window.alert("Some parameters have incorrect values");
         }
     } else {
         window.alert("Enter the correct R value to perform a hit");
@@ -91,7 +94,7 @@ const clickEvent = new MouseEvent('click', {
     view: window
 });
 
-const sendRequestFromCanvas = (x, y, r) => {
+const sendRequestFromCanvas = (x, y) => {
     yInput.value = y.toFixed(4);
     xInput.value = Math.round(x);
 
@@ -113,8 +116,13 @@ const getImageSize = (rVal) => {
     return 250 + rVal * 50;
 }
 
-
 window.onload = (event) => {
     drawAllPoints();
     setSendAvailability()
 }
+
+// for (let key in typeInput) {
+//     typeInput[key].onselect((e) => {
+//         document.querySelector('.size_label').innerHTML = (typeInput[key].label === 1 ? 'radius' : 'length');
+//     })
+// }

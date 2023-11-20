@@ -9,6 +9,8 @@ import java.util.List;
 public interface DAOInterface {
 
     List<ResultEntity> getAllResults();
+    List<RoundPointEntity> getAllCircles();
+    List<SquarePointEntity> getAllSquares();
 
     void addResult(ResultEntity resultEntity);
 

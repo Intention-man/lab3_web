@@ -23,6 +23,19 @@ public class DAO implements DAOInterface{
         return entityManager.createQuery(criteriaQuery.select(root)).getResultList();
     }
 
+
+    public List<RoundPointEntity> getAllCircles() {
+        var criteriaQuery = entityManager.getCriteriaBuilder().createQuery(RoundPointEntity.class);
+        Root<RoundPointEntity> root = criteriaQuery.from(RoundPointEntity.class);
+        return entityManager.createQuery(criteriaQuery.select(root)).getResultList();
+    }
+
+    public List<SquarePointEntity> getAllSquares() {
+        var criteriaQuery = entityManager.getCriteriaBuilder().createQuery(SquarePointEntity.class);
+        Root<SquarePointEntity> root = criteriaQuery.from(SquarePointEntity.class);
+        return entityManager.createQuery(criteriaQuery.select(root)).getResultList();
+    }
+
     @Override
     public void addResult(ResultEntity resultEntity) {
         entityManager.getTransaction().begin();

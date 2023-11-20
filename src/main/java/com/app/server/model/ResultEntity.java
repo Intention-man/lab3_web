@@ -25,6 +25,7 @@ public class ResultEntity implements Serializable {
     @Column
     private boolean inside;
 
+
     public ResultEntity(){}
 
 
@@ -68,6 +69,7 @@ public class ResultEntity implements Serializable {
     public void setInside(boolean inside) {
          this.inside = inside;
     }
+
 
     @Override
     public boolean equals(Object o) {

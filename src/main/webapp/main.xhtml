@@ -25,15 +25,16 @@
 
     <h:form>
         <div>
-            <h:outputLabel for="type" value="Circle or Square?"/>
-            <h:selectOneMenu name="type" styleClass="type" value="#{onePoint.type}">
-                <f:selectItem itemValue="1" itemLabel="Circle"/>
+            <h:outputLabel for="type_input" value="Circle or Square?"/>
+            <h:selectOneMenu name="type_input" styleClass="type_input" value="#{onePoint.type}">
+                <f:selectItem itemValue="1" itemLabel="Circle" />
                 <f:selectItem itemValue="2" itemLabel="Square"/>
+                <p:ajax update="size_label" />
             </h:selectOneMenu>
         </div>
 
-        <div>
-            <h:outputLabel for="size" value="#{onePoint.type == 1 ? 'radius' : 'length'} > 0"/>
+        <div id="size_div">
+            <h:outputLabel id="size_label" for="size" value="#{onePoint.type == 1 ? 'radius' : 'length'} > 0"/>
             <h:inputText name="size" styleClass="size" value="#{onePoint.size}"
                          required="true" maxlength="7"
                          requiredMessage="Size is required"
@@ -42,7 +43,6 @@
                 <f:validateDoubleRange minimum="0.0000001"/>
             </h:inputText>
         </div>
-
         <div>
             <h:outputLabel for="x" value="Value X &isin; [-3; 5]"/>
             <h:selectOneMenu name="x" styleClass="x" value="#{onePoint.x}">
@@ -57,7 +57,6 @@
                 <f:selectItem itemValue="5" itemLabel="5"/>
             </h:selectOneMenu>
         </div>
-
         <div>
             <h:outputLabel for="y" value="Value Y &isin; (-5; 3)"/>
             <h:inputText name="y" styleClass="y" value="#{onePoint.y}" onchange="setSendAvailability()"
@@ -68,11 +67,10 @@
                 <f:validateDoubleRange minimum="-4.9999999" maximum="2.9999999"/>
             </h:inputText>
         </div>
-
         <div>
             <h:outputLabel for="r" value="Value R &isin; [1; 4]"/>
             <h:panelGrid columns="1">
-                <p:inputText id="r" name="r" styleClass="r" value="#{onePoint.r}"/>
+                <p:inputText id="r" name="r" styleClass="r" value="#{onePoint.r}" onchange="handleSlideEnd(null, null)"/>
                 <p:slider for="r" minValue="1" maxValue="4" step="0.5" onSlideEnd="handleSlideEnd(event, ui)"/>
             </h:panelGrid>
         </div>
@@ -80,12 +78,25 @@
         <h:commandButton id="submit-btn" value="Send" styleClass="submit-btn">
             <f:ajax execute="@form" listener="#{resultsBean.addResult(onePoint)}"
                     render="results-table form"/>
+            <p:ajax update="results-table" />
         </h:commandButton>
 
     </h:form>
 
 
     <h:dataTable id="results-table" var="result" value="#{resultsBean.results}">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Type"/>
+            </f:facet>
+            <h:outputText value="#{result.type == 1 ? 'Circle' : 'Square'}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Size"/>
+            </f:facet>
+            <h:outputText value="#{result.type == 1 ? 'Radius' : 'Length'} #{result.size}"/>
+        </h:column>
         <h:column>
             <f:facet name="header">
                 <h:outputText value="X"/>

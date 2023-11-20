@@ -11,7 +11,7 @@ import jakarta.inject.Named;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @ManagedBean
 @ApplicationScoped
@@ -63,8 +63,10 @@ public class ResultsBean implements Serializable {
     }
 
     public List<OnePoint> getResults() {
-        List<ResultEntity> entityList = dao.getAllResults();
-        results = entityList.stream().map(this::resultEntityToBean).collect(Collectors.toList());
+        List<RoundPointEntity> circlesList = dao.getAllCircles();
+        List<SquarePointEntity> squaresList = dao.getAllSquares();
+
+        results = Stream.concat(circlesList.stream().map(this::circlesEntityToBean), squaresList.stream().map(this::squaresEntityToBean)).toList();
         resultsASJSONString = !results.isEmpty() ? gson.toJson(results) : "[]";
         return results;
     }
@@ -73,13 +75,27 @@ public class ResultsBean implements Serializable {
         return resultsASJSONString;
     }
 
-    public OnePoint resultEntityToBean(ResultEntity result){
+    public OnePoint circlesEntityToBean(RoundPointEntity result){
+        OnePoint onePoint = createNewBeanFromEntity(result.getId(), result.getX(), result.getY(), result.getR(), result.isInside());
+        onePoint.setType(1);
+        onePoint.setSize(result.getRadius());
+        return onePoint;
+    }
+
+    public OnePoint squaresEntityToBean(SquarePointEntity result){
+        OnePoint onePoint = createNewBeanFromEntity(result.getId(), result.getX(), result.getY(), result.getR(), result.isInside());
+        onePoint.setType(2);
+        onePoint.setSize(result.getLength());
+        return onePoint;
+    }
+
+    private OnePoint createNewBeanFromEntity(long id, int x, float y, float r, boolean inside) {
         OnePoint onePoint = new OnePoint();
-        onePoint.setId(result.getId());
-        onePoint.setX(result.getX());
-        onePoint.setY(result.getY());
-        onePoint.setR(result.getR());
-        onePoint.setInside(result.isInside());
+        onePoint.setId(id);
+        onePoint.setX(x);
+        onePoint.setY(y);
+        onePoint.setR(r);
+        onePoint.setInside(inside);
         return onePoint;
     }
 
