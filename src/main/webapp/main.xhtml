@@ -6,7 +6,6 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
 >
-
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8; width=device-width; initial-scale=1"
           name="viewport"/>
@@ -26,16 +25,16 @@
     <h:form>
         <div>
             <h:outputLabel for="type_input" value="Circle or Square?"/>
-            <h:selectOneMenu name="type_input" styleClass="type_input" value="#{onePoint.type}">
+            <h:selectOneMenu name="type_input" styleClass="type_input" value="#{onePoint.shapeType}">
                 <f:selectItem itemValue="1" itemLabel="Circle" />
                 <f:selectItem itemValue="2" itemLabel="Square"/>
-                <p:ajax update="size_label" />
+                <p:ajax update="size_label"/>
             </h:selectOneMenu>
         </div>
 
         <div id="size_div">
-            <h:outputLabel id="size_label" for="size" value="#{onePoint.type == 1 ? 'radius' : 'length'} > 0"/>
-            <h:inputText name="size" styleClass="size" value="#{onePoint.size}"
+            <h:outputLabel id="size_label" for="size" value="#{onePoint.shapeType == 2 ? 'length' : onePoint.shapeType == 1 ?'radius' : 'size'}"/>
+            <h:inputText name="size" styleClass="size" value="#{onePoint.size}" onchange="setSendAvailability()"
                          required="true" maxlength="7"
                          requiredMessage="Size is required"
                          validatorMessage="The value must be positive">
@@ -70,17 +69,15 @@
         <div>
             <h:outputLabel for="r" value="Value R &isin; [1; 4]"/>
             <h:panelGrid columns="1">
-                <p:inputText id="r" name="r" styleClass="r" value="#{onePoint.r}" onchange="handleSlideEnd(null, null)"/>
+                <p:inputText id="r" name="r" styleClass="r" value="#{onePoint.r}"/>
                 <p:slider for="r" minValue="1" maxValue="4" step="0.5" onSlideEnd="handleSlideEnd(event, ui)"/>
             </h:panelGrid>
         </div>
 
         <h:commandButton id="submit-btn" value="Send" styleClass="submit-btn">
             <f:ajax execute="@form" listener="#{resultsBean.addResult(onePoint)}"
-                    render="results-table form"/>
-            <p:ajax update="results-table" />
+                    render="results-table"/>
         </h:commandButton>
-
     </h:form>
 
 
@@ -89,13 +86,13 @@
             <f:facet name="header">
                 <h:outputText value="Type"/>
             </f:facet>
-            <h:outputText value="#{result.type == 1 ? 'Circle' : 'Square'}"/>
+            <h:outputText value="#{result.shapeType == 1 ? 'Circle' : 'Square'}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <h:outputText value="Size"/>
             </f:facet>
-            <h:outputText value="#{result.type == 1 ? 'Radius' : 'Length'} #{result.size}"/>
+            <h:outputText value="#{result.shapeType == 1 ? 'Radius' : 'Length'} #{result.size}"/>
         </h:column>
         <h:column>
             <f:facet name="header">

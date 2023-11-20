@@ -11,6 +11,8 @@ import jakarta.inject.Named;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @ManagedBean
@@ -18,8 +20,8 @@ import java.util.stream.Stream;
 @Named("resultsBean")
 public class ResultsBean implements Serializable {
 
-    @ManagedProperty(value = "#{onePoint}")
-    private OnePoint onePoint;
+//    @ManagedProperty(value = "#{onePoint}")
+//    private OnePoint onePoint;
 
     private final DAOInterface dao;
     private List<OnePoint> results;
@@ -36,7 +38,7 @@ public class ResultsBean implements Serializable {
     public void addResult(OnePoint onePoint) {
         onePoint.setInside(isInside(onePoint.getX(), onePoint.getY(), onePoint.getR()));
 
-        if (onePoint.getType() == 1){addCircle(onePoint);}
+        if (onePoint.getShapeType() == 1){addCircle(onePoint);}
         else {addSquare(onePoint);}
 
         results.add(onePoint);
@@ -65,8 +67,7 @@ public class ResultsBean implements Serializable {
     public List<OnePoint> getResults() {
         List<RoundPointEntity> circlesList = dao.getAllCircles();
         List<SquarePointEntity> squaresList = dao.getAllSquares();
-
-        results = Stream.concat(circlesList.stream().map(this::circlesEntityToBean), squaresList.stream().map(this::squaresEntityToBean)).toList();
+        results = Stream.concat(circlesList.stream().map(this::circlesEntityToBean), squaresList.stream().map(this::squaresEntityToBean)).collect(Collectors.toCollection(ArrayList::new));;
         resultsASJSONString = !results.isEmpty() ? gson.toJson(results) : "[]";
         return results;
     }
@@ -77,14 +78,14 @@ public class ResultsBean implements Serializable {
 
     public OnePoint circlesEntityToBean(RoundPointEntity result){
         OnePoint onePoint = createNewBeanFromEntity(result.getId(), result.getX(), result.getY(), result.getR(), result.isInside());
-        onePoint.setType(1);
+        onePoint.setShapeType(1);
         onePoint.setSize(result.getRadius());
         return onePoint;
     }
 
     public OnePoint squaresEntityToBean(SquarePointEntity result){
         OnePoint onePoint = createNewBeanFromEntity(result.getId(), result.getX(), result.getY(), result.getR(), result.isInside());
-        onePoint.setType(2);
+        onePoint.setShapeType(2);
         onePoint.setSize(result.getLength());
         return onePoint;
     }

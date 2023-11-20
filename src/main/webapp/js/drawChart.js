@@ -120,9 +120,3 @@ window.onload = (event) => {
     drawAllPoints();
     setSendAvailability()
 }
-
-// for (let key in typeInput) {
-//     typeInput[key].onselect((e) => {
-//         document.querySelector('.size_label').innerHTML = (typeInput[key].label === 1 ? 'radius' : 'length');
-//     })
-// }
