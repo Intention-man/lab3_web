@@ -197,9 +197,6 @@
 
     <!-- Цель для установки переменных окружения из командной строки или из файла -->
     <target name="set-env">
-        <condition property=".custom.jvm.args" value="${vm.args}" else="${vm.args.default}">
-            <isset property="vm.args"/>
-        </condition>
         <echo message="Using JVM args: ${custom.jvm.args}"/>
         <echo message="Using Java version: ${compile.version}"/>
     </target>
