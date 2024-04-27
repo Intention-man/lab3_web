@@ -107,6 +107,35 @@
         <antcall target="_scp"/>
     </target>
 
+    <target name="diff">
+        <echo message="***** DIFF START *****"/>
+        <exec executable="git" outputproperty="changes">
+            <arg line="diff --name-only"/>
+        </exec>
+        <for param="class" list="${diff.classes}" delimiter=" ">
+            <sequential>
+                <condition property="commit">
+                    <contains string="${changes}" substring="@{class}"/>
+                </condition>
+                <if>
+                    <isset property="commit"/>
+                    <then>
+                        <exec executable="git">
+                            <arg value="add"/>
+                            <arg value="@{class}"/>
+                        </exec>
+                    </then>
+                </if>
+            </sequential>
+        </for>
+        <exec executable="git">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="Update some file in diff.class"/>
+        </exec>
+        <echo message="***** DIFF END *****"/>
+    </target>
+
     <!-- Цель для установки переменных окружения из командной строки или из файла -->
     <target name="set-env">
         <condition property=".custom.jvm.args" value="${vm.args}" else="${vm.args.default}">
@@ -137,52 +166,42 @@
         </xmlvalidate>
     </target>
 
+<!--    <target name="team">-->
+<!--        <echo message="***** TEAM START *****"/>-->
+<!--        <mkdir dir="${zip.dir}"/>-->
+<!--        <fileset dir="${build.dir}"/>-->
 
-    <target name="test-antcontrib">
-        <if>
-            <equals arg1="test" arg2="test"/>
-            <then>
-                <echo message="ant-contrib работает"/>
-            </then>
-        </if>
-    </target>
+<!--        <exec executable="git">-->
+<!--            <arg line="checkout ${last.revision}"/>-->
+<!--        </exec>-->
+<!--        &lt;!&ndash;    Собираем эту ревизию &ndash;&gt;-->
+<!--        <antcall target="build"/>-->
+<!--        &lt;!&ndash;    Копируем собранный проект во временную директорию &ndash;&gt;-->
+<!--        <copy file="${ant.project}"-->
+<!--              tofile="${zip.dir}/${ant.project.name}v1.war"-->
+<!--              overwrite="false">-->
+<!--        </copy>-->
 
-    <target name="diff">
-        <echo message="***** DIFF START *****"/>
+<!--        <exec executable="git">-->
+<!--            <arg line="checkout ${preLast.revision}"/>-->
+<!--        </exec>-->
+<!--        &lt;!&ndash;    Собираем эту ревизию &ndash;&gt;-->
+<!--        <antcall target="build"/>-->
+<!--        &lt;!&ndash;    Копируем собранный проект во временную директорию &ndash;&gt;-->
+<!--        <copy file="${build.dir}/${ant.project.name}.war"-->
+<!--              tofile="${zip.dir}/${ant.project.name}v2.war"-->
+<!--              overwrite="false">-->
+<!--        </copy>-->
 
-        <exec executable="git" outputproperty="changes">
-            <arg line="diff --name-only"/>
-        </exec>
+<!--        &lt;!&ndash;    Архивируем все &ndash;&gt;-->
+<!--        <zip destfile="${build.dir}/team.zip"-->
+<!--             basedir="${zip.dir}"/>-->
 
-        <for param="class" list="${diff.classes}" delimiter=" ">
-            <sequential>
-                <condition property="commit">
-                    <contains string="${changes}" substring="@{class}"/>
-                </condition>
-
-                <if>
-                    <isset property="commit"/>
-                    <then>
-                        <exec executable="git">
-                            <arg value="add"/>
-                            <arg value="@{class}"/>
-                        </exec>
-                    </then>
-                </if>
-            </sequential>
-        </for>
-
-        <exec executable="git">
-            <arg value="commit"/>
-            <arg value="-m"/>
-            <arg value="Update some file in diff.class"/>
-        </exec>
-        <echo message="***** DIFF END *****"/>
-    </target>
-
-
-
-
+<!--        <exec executable="git">-->
+<!--            <arg line="checkout HEAD"/>-->
+<!--        </exec>-->
+<!--        <echo message="***** TEAM END *****"/>-->
+<!--    </target>-->
 
 
 
