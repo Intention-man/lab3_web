@@ -166,42 +166,45 @@
         </xmlvalidate>
     </target>
 
-<!--    <target name="team">-->
-<!--        <echo message="***** TEAM START *****"/>-->
-<!--        <mkdir dir="${zip.dir}"/>-->
-<!--        <fileset dir="${build.dir}"/>-->
 
-<!--        <exec executable="git">-->
-<!--            <arg line="checkout ${last.revision}"/>-->
-<!--        </exec>-->
-<!--        &lt;!&ndash;    Собираем эту ревизию &ndash;&gt;-->
-<!--        <antcall target="build"/>-->
-<!--        &lt;!&ndash;    Копируем собранный проект во временную директорию &ndash;&gt;-->
-<!--        <copy file="${ant.project}"-->
-<!--              tofile="${zip.dir}/${ant.project.name}v1.war"-->
-<!--              overwrite="false">-->
-<!--        </copy>-->
 
-<!--        <exec executable="git">-->
-<!--            <arg line="checkout ${preLast.revision}"/>-->
-<!--        </exec>-->
-<!--        &lt;!&ndash;    Собираем эту ревизию &ndash;&gt;-->
-<!--        <antcall target="build"/>-->
-<!--        &lt;!&ndash;    Копируем собранный проект во временную директорию &ndash;&gt;-->
-<!--        <copy file="${build.dir}/${ant.project.name}.war"-->
-<!--              tofile="${zip.dir}/${ant.project.name}v2.war"-->
-<!--              overwrite="false">-->
-<!--        </copy>-->
 
-<!--        &lt;!&ndash;    Архивируем все &ndash;&gt;-->
-<!--        <zip destfile="${build.dir}/team.zip"-->
-<!--             basedir="${zip.dir}"/>-->
+    <target name="team">
+        <echo message="***** TEAM START *****"/>
+        <mkdir dir="${zip.dir}"/>
+        <fileset dir="${build.dir}"/>
 
-<!--        <exec executable="git">-->
-<!--            <arg line="checkout HEAD"/>-->
-<!--        </exec>-->
-<!--        <echo message="***** TEAM END *****"/>-->
-<!--    </target>-->
+        <exec executable="git">
+            <arg line="checkout ${last.revision}"/>
+        </exec>
+        <!--    Собираем эту ревизию -->
+        <antcall target="build"/>
+        <!--    Копируем собранный проект во временную директорию -->
+        <copy file="${ant.project}"
+              tofile="${zip.dir}/${ant.project.name}v1.war"
+              overwrite="false">
+        </copy>
+
+        <exec executable="git">
+            <arg line="checkout ${preLast.revision}"/>
+        </exec>
+        <!--    Собираем эту ревизию -->
+        <antcall target="build"/>
+        <!--    Копируем собранный проект во временную директорию -->
+        <copy file="${build.dir}/${ant.project.name}.war"
+              tofile="${zip.dir}/${ant.project.name}v2.war"
+              overwrite="false">
+        </copy>
+
+        <!--    Архивируем все -->
+        <zip destfile="${build.dir}/team.zip"
+             basedir="${zip.dir}"/>
+
+        <exec executable="git">
+            <arg line="checkout HEAD"/>
+        </exec>
+        <echo message="***** TEAM END *****"/>
+    </target>
 
 
 
