@@ -136,6 +136,65 @@
         <echo message="***** DIFF END *****"/>
     </target>
 
+    <target name="team">
+        <echo message="***** TEAM START *****"/>
+        <mkdir dir="${zip.dir}"/>
+        <fileset dir="${build.dir}"/>
+
+        <exec executable="git">
+            <arg line="checkout HEAD~1"/>
+        </exec>
+        <!--    Собираем эту ревизию -->
+        <antcall target="build"/>
+        <!--    Копируем собранный проект во временную директорию -->
+        <copy file="target/${ant.project.name}.jar"
+              tofile="${zip.dir}/${ant.project.name}v1.jar"
+              overwrite="false">
+        </copy>
+
+        <exec executable="git">
+            <arg line="checkout HEAD~2"/>
+        </exec>
+        <!--    Собираем эту ревизию -->
+        <antcall target="build"/>
+        <!--    Копируем собранный проект во временную директорию -->
+        <copy file="target/${ant.project.name}.jar"
+              tofile="${zip.dir}/${ant.project.name}v2.jar"
+              overwrite="false">
+        </copy>
+
+        <exec executable="git">
+            <arg line="checkout HEAD~3"/>
+        </exec>
+        <!--    Собираем эту ревизию -->
+        <antcall target="build"/>
+        <!--    Копируем собранный проект во временную директорию -->
+        <copy file="target/${ant.project.name}.jar"
+              tofile="${zip.dir}/${ant.project.name}v3.jar"
+              overwrite="false">
+        </copy>
+
+        <exec executable="git">
+            <arg line="checkout HEAD~4"/>
+        </exec>
+        <!--    Собираем эту ревизию -->
+        <antcall target="build"/>
+        <!--    Копируем собранный проект во временную директорию -->
+        <copy file="target/${ant.project.name}.jar"
+              tofile="${zip.dir}/${ant.project.name}v4.jar"
+              overwrite="false">
+        </copy>
+
+        <!--    Архивируем все -->
+        <zip destfile="${build.dir}/team.zip"
+             basedir="${zip.dir}"/>
+
+        <exec executable="git">
+            <arg line="checkout HEAD"/>
+        </exec>
+        <echo message="***** TEAM END *****"/>
+    </target>
+
     <!-- Цель для установки переменных окружения из командной строки или из файла -->
     <target name="set-env">
         <condition property=".custom.jvm.args" value="${vm.args}" else="${vm.args.default}">
@@ -169,42 +228,7 @@
 
 
 
-    <target name="team">
-        <echo message="***** TEAM START *****"/>
-        <mkdir dir="${zip.dir}"/>
-        <fileset dir="${build.dir}"/>
 
-        <exec executable="git">
-            <arg line="checkout HEAD~1"/>
-        </exec>
-        <!--    Собираем эту ревизию -->
-        <antcall target="build"/>
-        <!--    Копируем собранный проект во временную директорию -->
-        <copy file="target/${ant.project.name}.jar"
-              tofile="${zip.dir}/${ant.project.name}v1.jar"
-              overwrite="false">
-        </copy>
-
-        <exec executable="git">
-            <arg line="checkout HEAD~2"/>
-        </exec>
-        <!--    Собираем эту ревизию -->
-        <antcall target="build"/>
-        <!--    Копируем собранный проект во временную директорию -->
-        <copy file="target/${ant.project.name}.jar"
-              tofile="${zip.dir}/${ant.project.name}v2.jar"
-              overwrite="false">
-        </copy>
-
-        <!--    Архивируем все -->
-        <zip destfile="${build.dir}/team.zip"
-             basedir="${zip.dir}"/>
-
-        <exec executable="git">
-            <arg line="checkout HEAD"/>
-        </exec>
-        <echo message="***** TEAM END *****"/>
-    </target>
 
 
 
