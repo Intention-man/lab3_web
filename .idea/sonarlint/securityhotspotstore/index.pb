@@ -1,12 +1,6 @@
 
-^
-.src/main/java/com/app/server/util/JPAUtil.java,6\9\698d9b7125ed89468b82a9da4ea9403adadb7198
 c
 3src/main/java/com/app/server/model/ResultsBean.java,9\a\9a0863cfe3dff102faa960b7981f9e8adcefcafd
-`
-0src/main/java/com/app/server/model/OnePoint.java,4\c\4c435602587f0f8813baa0dbc663f6d2c20a0370
-X
-(src/main/java/com/app/server/db/DAO.java,c\1\c1f0d5c060a57660ebc4a0cbfdbc3eb76b0b8c08
 X
 (src/main/webapp/WEB-INF/faces-config.xml,9\2\921ab541b29cd2aba50bbba38a0af79890ebe16a
 O
@@ -15,11 +9,26 @@ K
 src/main/webapp/index.xhtml,b\b\bb585a12746e3c58077a000cb566d3b2b7ff11e3
 J
 src/main/webapp/main.xhtml,1\1\11f75676e473d6c7e9f5cee02d0370eb6c3a3326
-a
-1src/main/java/com/app/server/db/DAOInterface.java,2\4\24695caad1e19a9d04b72f3e1ccb55efbd7bc739
-d
-4src/main/java/com/app/server/model/ResultEntity.java,2\c\2c7e9c828753527b71eae73f0e71b5db8ba4aa2c
-h
-8src/main/java/com/app/server/model/RoundPointEntity.java,3\e\3e4337ac6d8a3e7cdfdc501221fe18998687ab41
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+[
++src/main/resources/META-INF/persistence.xml,3\b\3be4f79b5828b3982f3f6a62bf8fc67b3adedf58
+T
+$src/main/resources/hibernate.cfg.xml,3\1\3176feae82bf4ff4f68f72c9d6d3b850a3110c22
+@
+build.properties,3\6\36b053bdeb9afce76d0bde1ed08dabcada248a19
+9
+	build.xml,b\d\bdc348bf75801c527f51cdeddc8edf027f7ef35a
+R
+"src/test/java/ResultsBeanTest.java,0\e\0e5a5d1fd4a750bcb6560676b59b0305cd8d3f47
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+l
+<ant/checksums/java/com/app/server/model/ResultsBean.java.MD5,b\5\b5429de490c339e96ac3ac3fd9a84ef6419a7333
+[
++ant/checksums/webapp/js/clockDisplay.js.MD5,c\f\cf90705ba53d704ba358a7a24c2d8c6d8daa45f0
+X
+(ant/checksums/webapp/index.xhtml.SHA-512,4\e\4e536a360f165ef3a43730c9a615abf726744c85
+T
+$ant/checksums/webapp/index.xhtml.MD5,8\e\8ec6ce38ad954cc93204e38515a2cb6f3e7de738
