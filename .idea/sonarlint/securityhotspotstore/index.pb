@@ -1,0 +1,25 @@
+
+^
+.src/main/java/com/app/server/util/JPAUtil.java,6\9\698d9b7125ed89468b82a9da4ea9403adadb7198
+c
+3src/main/java/com/app/server/model/ResultsBean.java,9\a\9a0863cfe3dff102faa960b7981f9e8adcefcafd
+`
+0src/main/java/com/app/server/model/OnePoint.java,4\c\4c435602587f0f8813baa0dbc663f6d2c20a0370
+X
+(src/main/java/com/app/server/db/DAO.java,c\1\c1f0d5c060a57660ebc4a0cbfdbc3eb76b0b8c08
+X
+(src/main/webapp/WEB-INF/faces-config.xml,9\2\921ab541b29cd2aba50bbba38a0af79890ebe16a
+O
+src/main/webapp/WEB-INF/web.xml,2\e\2e22b6edd746fa3dc40ad7276c87c8d87d72a392
+K
+src/main/webapp/index.xhtml,b\b\bb585a12746e3c58077a000cb566d3b2b7ff11e3
+J
+src/main/webapp/main.xhtml,1\1\11f75676e473d6c7e9f5cee02d0370eb6c3a3326
+a
+1src/main/java/com/app/server/db/DAOInterface.java,2\4\24695caad1e19a9d04b72f3e1ccb55efbd7bc739
+d
+4src/main/java/com/app/server/model/ResultEntity.java,2\c\2c7e9c828753527b71eae73f0e71b5db8ba4aa2c
+h
+8src/main/java/com/app/server/model/RoundPointEntity.java,3\e\3e4337ac6d8a3e7cdfdc501221fe18998687ab41
+7
+pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec

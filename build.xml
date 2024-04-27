@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+<project name="lab3" default="compile">
+    <property file="build.properties"/>
+
+    <!-- Загрузка библиотеки ant-contrib -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="C:\Users\Михаил\Documents\IT\javaProjects\opi-lab3\lib\ant-contrib.jar"/>
+        </classpath>
+    </taskdef>
+
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="compile">
+        <echo message="--- COMPILE START ---"/>
+        <mkdir dir="${compiled.classes}"/>
+        <javac destdir="${compiled.classes}" includeantruntime="false">
+            <src path="${main.dir}"/>
+            <classpath>
+                <pathelement location="${compiled.classes}"/>
+                <path refid="classpath"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="build" depends="compile">
+        <echo message="--- BUILD START ---"/>
+        <jar destfile="${dest.jar}" basedir="${compiled.classes}" compress="false" index="true">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+                <attribute name="Version" value="${main.version}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean">
+        <echo message="--- CLEAN START ---"/>
+        <delete dir="${compiled}"/>
+    </target>
+
+    <target name="test" depends="build">
+        <echo message="--- TEST START ---"/>
+        <mkdir dir="${compiled.tests}"/>
+        <javac destdir="${compiled.tests}" includeantruntime="false">
+            <src path="${test.dir}"/>
+            <classpath>
+                <pathelement location="${compiled.classes}"/>
+                <path refid="classpath"/>
+            </classpath>
+        </javac>
+        <junit fork="true" printsummary="on">
+            <formatter type="xml"/>
+            <classpath>
+                <path refid="classpath"/>
+                <pathelement location="${compiled.classes}"/>
+                <pathelement location="${compiled.tests}"/>
+            </classpath>
+            <batchtest todir="reports">
+                <fileset dir="${test.dir}" includes="*Test*.java"/>
+            </batchtest>
+        </junit>
+    </target>
+
+    <target name="doc">
+        <checksum todir="ant/checksums" format="MD5SUM" totalproperty="md5" forceOverwrite="yes">
+            <fileset dir="${web.dir}"/>
+            <fileset dir="${src.dir}"/>
+        </checksum>
+        <checksum todir="ant/checksums" algorithm="SHA-512" totalproperty="sha1" forceOverwrite="yes">
+            <fileset dir="${web.dir}"/>
+            <fileset dir="${src.dir}"/>
+        </checksum>
+        <propertyfile file="build.properties">
+            <entry key="info.md5" value="${info.md5}"/>
+            <entry key="info.sha1" value="${info.sha1}"/>
+        </propertyfile>
+        <manifest file="${resources.dir}/META-INF/MANIFEST.MF">
+            <attribute name="SHA1-Digest" value="${info.sha1}"/>
+            <attribute name="MD5-Digest" value="${info.md5}"/>
+        </manifest>
+        <delete dir="${doc.dir}"/>
+        <mkdir dir="${doc.dir}"/>
+        <javadoc destdir="${doc.dir}"
+                 author="true"
+                 version="true"
+                 use="true">
+            <classpath refid="classpath"/>
+            <fileset dir="${src.dir}"/>
+        </javadoc>
+        <jar destfile="${doc.dir}/docs.jar"
+             basedir="${doc.dir}"
+             update="true">
+        </jar>
+    </target>
+
+    <target name="_scp">
+        <echo message="***** SCP STARTED *****"/>
+        <scp file="${ant.project}"
+             todir="${scp.username}:${scp.password}@${scp.host}:${scp.dir}"
+             port="${scp.port}"
+             trust="true"/>
+        <echo message="***** SCP COMPLETED *****"/>
+    </target>
+    <target name="scp" depends="build">
+        <antcall target="_scp"/>
+    </target>
+
+    <!-- Цель для установки переменных окружения из командной строки или из файла -->
+    <target name="set-env">
+        <condition property=".custom.jvm.args" value="${vm.args}" else="${vm.args.default}">
+            <isset property="vm.args"/>
+        </condition>
+        <echo message="Using JVM args: ${custom.jvm.args}"/>
+        <echo message="Using Java version: ${compile.version}"/>
+    </target>
+    <target name="run" depends="compile">
+        <echo message="--- RUN START ---"/>
+        <java fork="true" classname="${main.class}" classpath="${compiled.classes}">
+            <jvmarg value="-Xms1024M"/>
+            <jvmarg value="-Xms512m"/>
+        </java>
+        <echo message="--- RUN END ---"/>
+    </target>
+    <target name="env">
+        <antcall target="run"/>
+    </target>
+
+    <!--    ВСЕ ЧТО ВЫШЕ - РАБОТАЕТ-->
+
+    <target name="xml">
+        <xmlvalidate failonerror="true">
+            <fileset dir="./" excludes=".idea/">
+                <include name="**/*.xml"/>
+            </fileset>
+        </xmlvalidate>
+    </target>
+
+
+    <target name="test-antcontrib">
+        <if>
+            <equals arg1="test" arg2="test"/>
+            <then>
+                <echo message="ant-contrib работает"/>
+            </then>
+        </if>
+    </target>
+
+    <target name="diff">
+        <echo message="***** DIFF START *****"/>
+
+        <exec executable="git" outputproperty="changes">
+            <arg line="diff --name-only"/>
+        </exec>
+
+        <for param="class" list="${diff.classes}" delimiter=" ">
+            <sequential>
+                <condition property="commit">
+                    <contains string="${changes}" substring="@{class}"/>
+                </condition>
+
+                <if>
+                    <isset property="commit"/>
+                    <then>
+                        <exec executable="git">
+                            <arg value="add"/>
+                            <arg value="@{class}"/>
+                        </exec>
+                    </then>
+                </if>
+            </sequential>
+        </for>
+
+        <exec executable="git">
+            <arg value="commit"/>
+            <arg value="-m"/>
+            <arg value="Update some file in diff.class"/>
+        </exec>
+        <echo message="***** DIFF END *****"/>
+    </target>
+
+
+
+
+
+
+
+</project>
