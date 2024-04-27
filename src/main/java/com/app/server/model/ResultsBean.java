@@ -1,8 +1,7 @@
 package com.app.server.model;
 
-import java.io.Serializable;
 
-public class ResultsBean implements Serializable {
+public class ResultsBean {
     public static void main(String[] args){
         System.out.println("WORKING!!!");
         System.out.println(isInside(0, 0, 1));
