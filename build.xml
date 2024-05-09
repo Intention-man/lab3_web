@@ -1,16 +1,17 @@
-<?xml version="1.0"?>
-<project name="lab3" default="compile">
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="lab3" default="compile" basedir=".">
     <property file="build.properties"/>
 
     <!-- Загрузка библиотеки ant-contrib -->
-    <taskdef resource="net/sf/antcontrib/antlib.xml">
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
         <classpath>
-            <pathelement location="C:\Users\Михаил\Documents\IT\javaProjects\opi-lab3\lib\ant-contrib.jar"/>
+            <pathelement location="C:\Users\Михаил\Documents\IT\javaProjects\opi-lab3\lib\ant-contrib-20020829.jar"/>
         </classpath>
     </taskdef>
 
     <path id="classpath">
-        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        <fileset dir="C:\Program Files\apache-ant-1.10.14\lib" includes="**/*.jar"/>
+        <pathelement location="C:\Program Files\apache-ant-1.10.14\lib\ant-junit.jar"/>
     </path>
 
     <target name="compile">
@@ -50,7 +51,7 @@
                 <path refid="classpath"/>
             </classpath>
         </javac>
-        <junit fork="true" printsummary="on">
+        <junit fork="true" printsummary="on" haltonfailure="true">
             <formatter type="xml"/>
             <classpath>
                 <path refid="classpath"/>
@@ -61,7 +62,13 @@
                 <fileset dir="${test.dir}" includes="*Test*.java"/>
             </batchtest>
         </junit>
+        <echo message="junit.totalcount: ${junit.totalcount}"/>
+        <echo message="junit.success: ${junit.success}"/>
+        <echo message="junit.failures: ${junit.failures}"/>
+        <echo message="junit.skipped: ${junit.skipped}"/>
+        <echo message="junit.haltonfailure: ${junit.haltonfailure}"/>
     </target>
+
 
     <target name="doc">
         <checksum todir="ant/checksums" format="MD5SUM" totalproperty="md5" forceOverwrite="yes">
@@ -95,16 +102,43 @@
         </jar>
     </target>
 
+    <target name="xml">
+        <echo message="Начинаем валидацию XML файлов..."/>
+        <!-- Валидация всех XML файлов в директории проекта и всех поддиректориях, исключая папку .idea -->
+        <xmlvalidate failonerror="true" lenient="true">
+            <fileset dir="./" excludes=".idea/">
+                <include name="**/*.xml"/>
+                <exclude name=".idea/**"/>
+            </fileset>
+        </xmlvalidate>
+        <echo message="Валидация XML файлов успешно завершена."/>
+    </target>
+
     <target name="_scp">
-        <echo message="***** SCP STARTED *****"/>
+        <echo message="* SCP STARTED *"/>
         <scp file="${ant.project}"
              todir="${scp.username}:${scp.password}@${scp.host}:${scp.dir}"
              port="${scp.port}"
              trust="true"/>
-        <echo message="***** SCP COMPLETED *****"/>
+        <echo message="* SCP COMPLETED *"/>
     </target>
-    <target name="scp" depends="build">
-        <antcall target="_scp"/>
+
+    <target name="scp" depends="build, test">
+        <condition property="coverage_ok">
+            <available file="${junit.outputfile}" />
+            <and>
+                <not>
+                    <length length="${junit.totalfailures}" when="gt" value="0" />
+                </not>
+                <or>
+                    <length length="${junit.haltonfailure}" when="eq" value="1" />
+                    <math operation="+" operand1="${junit.success}" operand2="${junit.skipped}" />
+                    <greaterthan value="50" />
+                    <percent value="${junit.totalcount}" />
+                </or>
+            </and>
+        </condition>
+        <antcall target="_scp" if="${coverage_ok}"/>
     </target>
 
     <target name="diff">
@@ -211,22 +245,4 @@
     <target name="env">
         <antcall target="run"/>
     </target>
-
-    <!--    ВСЕ ЧТО ВЫШЕ - РАБОТАЕТ-->
-
-    <target name="xml">
-        <xmlvalidate failonerror="true">
-            <fileset dir="./" excludes=".idea/">
-                <include name="**/*.xml"/>
-            </fileset>
-        </xmlvalidate>
-    </target>
-
-
-
-
-
-
-
-
 </project>
